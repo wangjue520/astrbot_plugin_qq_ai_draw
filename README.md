@@ -1,66 +1,99 @@
 # 跑图姬（astrbot_plugin_qq_ai_draw）
 
-QQ 出图机器人插件：群里 @机器人 说"画 画面描述"，AI 优化提示词 → 自动触发角色 LoRA → 本地 WebUI Forge 出图发回群里。
+<p>
+  <img src="logo.png" width="128" align="right" alt="跑图姬">
+</p>
 
-灵感与核心逻辑来自独立项目 [QQ-AI-Draw-Bot](https://github.com/wangjue520/QQ-AI-Draw-Bot)（同一作者）；插件版由独立版移植，QQ 接入改由 AstrBot 负责。
+QQ 出图机器人插件：群里 @机器人 说「画一个佩丽卡」，AI 自动把大白话优化成规范的英文提示词、识别角色并自动触发对应 LoRA，调用你电脑上的本地 WebUI Forge 出图，发回群里。
 
-## 功能
+灵感与核心逻辑来自独立项目 [QQ-AI-Draw-Bot](https://github.com/wangjue520/QQ-AI-Draw-Bot)（同一作者）。
 
-- **AI 提示词优化**：大白话 → 规范英文提示词（默认 xAI grok，可换任何 OpenAI 兼容 API）
-- **角色字典**：内置 5000 条「中文名 → Danbooru tag」，说"画一个佩丽卡"自动命中 `perlica (arknights)`
-- **LoRA 自动触发**：扫描 LoRA 目录的 `.civitai.info`，命中训练词自动拼 `<lora:xxx:0.8>`（上限和权重可配）
-- **画风预设**：自带示例画风，可改数据目录下的 `presets.json` 增删
-- **分辨率**：`画 1000x1400 少女`（精准）、`画 1080p 少女`（模糊，AI 换算）、`画 横/竖/方`
-- **队列与配额**：多任务排队、每人每日配额、冷却、并发上限、黑名单
-- **网页手点优先**：Forge 网页里有人在跑，机器人自动排队
+## 功能特性
 
-## 前置条件
+**AI 提示词优化**
+内置 Anima 官方提示词规则（Danbooru 标签体系、画师 @ 语法、权重语法），一句中文大白话自动改写成模型最易出效果的英文提示词。默认走 xAI grok，可在配置里换成任何 OpenAI 兼容 API。不填 key 也能跑，自动跳过优化直接用原文。
 
-1. 本地部署 **WebUI Forge** 并带 `--api` 启动。推荐用 [forge-webui-launcher](https://github.com/wangjue520/forge-webui-launcher) 一键部署。
-   验证：浏览器打开 `http://127.0.0.1:7860/sdapi/v1/progress` 能显示 JSON。
-2. 大模型 key（可选）：https://console.x.ai 生成，不填则跳过提示词优化直接跑原文。
+**角色字典（5000 条）**
+内置 5000 条「中文名 → Danbooru tag」对照，说"画一个阿米娅"自动命中 `amiya (arknights)` 并强制写进提示词，杜绝"画谁不像谁"。可手动增删、批量导入。
 
-## 安装
+**LoRA 自动触发**
+扫描 LoRA 目录下所有 `.civitai.info`（Civitai 下载自带），提示词命中某个 LoRA 的训练角色词时，自动拼上 `<lora:文件名:权重>`，并在群里提示"自动触发 LoRA：xxx"。上限个数与默认权重可调。
 
-方式一（上架后）：AstrBot WebUI → 插件 → 插件市场 → 搜"跑图姬" → 安装。
+**画风预设**
+自带示例画风，正向串里 LoRA 写 `<lora:文件名:权重>`、画师写 `@画师名`，数据文件可随时增删，保存即生效。
 
-方式二（手动）：把本仓库 clone 到 AstrBot 的 `data/plugins/` 目录，重启 AstrBot 或在插件页重载。
+**分辨率自由写法**
 
-## 配置
+| 写法 | 行为 |
+|---|---|
+| `画 1000x1400 少女` | 精准尺寸直接生效，不调 AI |
+| `画 1080p 少女`（480p~4k） | 模糊说法，AI 换算成模型能跑的尺寸 |
+| `画 横 / 竖 / 方` | 固定构图 1344x768 / 768x1344 / 1024x1024 |
+| `画 厚涂 横 1080p 少女` | 任意组合，横竖优先于模糊说法 |
 
-安装后在插件卡片上点配置，填三项即可跑起来：
+**队列与配额**
+多任务自动排队并在群里报位置；每人每日配额、发送冷却、单人并发上限、黑名单，群宠必备。
+
+**网页手点永远优先**
+机器人在 Forge 网页里手点的生成前会自动探测：你在本地跑图它就安静排队并提示，绝不抢卡；跑完自动接上。
+
+## 部署教程（三分钟）
+
+**前置条件**
+1. 本地部署 WebUI Forge 并以 `--api` 启动。零基础上游推荐用 [forge-webui-launcher](https://github.com/wangjue520/forge-webui-launcher) 一键部署。
+2. 验证：浏览器打开 `http://127.0.0.1:7860/sdapi/v1/progress` 能显示一段 JSON = API 已开。
+
+**安装**
+AstrBot WebUI → 插件 → 从 Git 链接安装 → 填 `https://github.com/wangjue520/astrbot_plugin_qq_ai_draw` → 安装后重载插件。
+
+**配置**（插件卡片 → 配置，填三项即可开画）
 
 | 配置项 | 说明 |
 |---|---|
 | Forge 地址 | 默认 `http://127.0.0.1:7860` |
 | LoRA 目录 | Forge 的 `models\Lora` 完整路径，留空关闭 LoRA 触发 |
-| xAI API Key | `xai-` 开头，留空跳过提示词优化 |
+| xAI API Key | `xai-` 开头（console.x.ai 生成），留空跳过提示词优化 |
 
-其余步数 / CFG / 采样器 / 质量前缀 / 配额 / 冷却都有默认值。
+步数 / CFG / 采样器 / 质量前缀 / 配额 / 冷却等均有默认值，进阶玩家自行微调。
 
-## 使用
-
-群里 **@机器人 + 指令**；私聊直接发指令（不用 @）。
+**使用**
+群里 `@机器人 画 画面描述`；私聊直接发指令（不用 @）。
 
 | 指令 | 效果 |
 |---|---|
-| `@机器人 画 画面描述` | AI 优化 + 自动触发 LoRA + 跑图 |
-| `@机器人 画 厚涂 横 一个少女` | 画风 + 构图自由组合 |
-| `@机器人 生图 英文tag` | 跳过优化直接跑 |
-| `@机器人 再来` | 同提示词换种子重 roll |
-| `@机器人 画风` / `帮助` | 画风列表 / 说明 |
+| `画 一个少女` | AI 优化 + 自动触发 LoRA + 跑图 |
+| `画 厚涂 横 1080p 一个在雨中撑伞的少女` | 画风+构图+模糊分辨率组合示例 |
+| `生图 英文tag` | 跳过优化，按原文直接跑 |
+| `再来` | 同提示词换种子重 roll |
+| `画风` / `帮助` | 画风列表 / 使用说明 |
 
-## 数据文件
+## 进阶玩法
 
-首次运行会在 AstrBot 数据目录（`data/plugin_data/astrbot_plugin_qq_ai_draw/`）生成：
+数据文件在 AstrBot 数据目录 `data/plugin_data/astrbot_plugin_qq_ai_draw/` 下：
 
 | 文件 | 作用 |
 |---|---|
-| `char_dict.json` | 角色字典（可手动增删条目） |
-| `presets.json` | 画风预设 |
-| `history.json` / `usage.json` | 历史出图 / 每日配额计数 |
-| `outputs/` | 出图存档 |
-| `optimizer_prompt.txt` | 自定义提示词优化 system prompt（生成后生效） |
+| `char_dict.json` | 角色字典，按格式增删条目 |
+| `presets.json` | 画风预设，自定义你的画师串 |
+| `optimizer_prompt.txt` | 自定义提示词优化的 system prompt（生成后生效） |
+| `outputs/` | 每张图自动留档 |
+| `history.json` | 出图历史（含完整提示词，方便复刻） |
+
+## 常见问题
+
+**跑图没反应 / 报连不上 Forge**
+Forge 没开或没开 `--api`。浏览器打开 `http://127.0.0.1:7860/sdapi/v1/progress`，能显示 JSON 才算通。
+
+**提示词优化失败**
+检查 xAI key（`xai-` 开头）。key 无效不影响跑图，只是跳过优化。
+
+**LoRA 没自动触发**
+确认 ① LoRA 目录填对 ② 该 LoRA 旁边有 `.civitai.info`（Civitai 下载自带）③ 角色名在字典里或 LoRA 触发词对得上。
+
+**图发不出 / 发得慢**
+QQ 风控限制，别刷屏，稍等重试。
+
+**交流群：1048157072**，欢迎进来玩图、反馈问题。
 
 ## 免责说明
 
