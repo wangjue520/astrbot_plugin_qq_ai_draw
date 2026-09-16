@@ -1,0 +1,29 @@
+name: astrbot_plugin_qq_ai_draw
+display_name: 跑图姬（QQ AI 画图）
+short_desc: 群里 @机器人"画一个佩丽卡"：AI 优化提示词 + 自动触发角色 LoRA，本地 Forge 出图发回群里
+desc: |
+  QQ 出图机器人插件：群里 @机器人 说"画 画面描述"，自动用 AI 把大白话优化成规范的英文提示词、
+  识别提到的角色并自动触发对应 LoRA，调用你电脑上的本地 WebUI Forge 跑图，图发回群里。
+
+  ## 功能
+  - AI 提示词优化（xAI grok 等 OpenAI 兼容 API，可在插件配置里换）
+  - 5200+ 条角色字典：说"画一个阿米娅"自动命中 `amiya (arknights)` 并强制写进提示词
+  - LoRA 自动触发：扫描 LoRA 目录的 .civitai.info，命中训练词自动拼 <lora:xxx:0.8>
+  - 画风预设 / 精准与模糊分辨率（1080p、2k、4k…）/ 再来 / 排队 / 每日配额 / 冷却
+  - 本地 Forge 手点的任务永远优先，机器人自动排队
+
+  ## 前置条件
+  1. 本地部署 WebUI Forge 并以 --api 启动（推荐 forge-webui-launcher 一键部署：
+     https://github.com/wangjue520/forge-webui-launcher ）
+  2. 在插件配置里填：Forge 地址、LoRA 目录、xAI API Key（可选，不填跳过提示词优化）
+
+  灵感与核心逻辑来自 QQ-AI-Draw-Bot：https://github.com/wangjue520/QQ-AI-Draw-Bot
+version: 1.0.0
+author: wangjue520
+repo: https://github.com/wangjue520/astrbot_plugin_qq_ai_draw
+support_platforms:
+  - aiocqhttp
+tags:
+  - AI
+  - 图片
+  - 绘图

@@ -1,0 +1,32 @@
+{
+  "画风1": {
+    "description": "",
+    "positive": "(@yoneyamamai:0.5), (@ciloranko:0.5), (@fuzichoco:0.5), (@modare:1), (@ningen mame:1.5), (@tianliang duohe fangdongyeL:0.5),<lora:agm_v1_epoch7:0.4>, <lora:shaobayan_anima-000006:0.6><lora:塞翁が牛v2:0.4> <lora:cunny:0.4>，Dark environment",
+    "negative": ""
+  },
+  "画风2": {
+    "description": "",
+    "positive": "\n(@yoneyamamai:0.5), (@ciloranko:0.5), (@fuzichoco:0.5), (@modare:1), (@ningen mame:1.5), (@tianliang duohe fangdongyeL:0.5),\n\n<lora:kieed_v2_epoch35:0.6> <lora:Ashima:1> <lora:壱珂 anima:0.3> ",
+    "negative": ""
+  },
+  "画风3": {
+    "description": "",
+    "positive": "(@yoneyamamai:0.5), (@ciloranko:0.5), (@fuzichoco:0.5), (@modare:1), (@ningen mame:1.5), (@tianliang duohe fangdongyeL:0.5),\n\n <lora:cunny:0.6><lora:shaobayan_anima-000006:0.6> <lora:agm_v1_epoch7:0.6> ",
+    "negative": ""
+  },
+  "画风4": {
+    "description": "",
+    "positive": "\n <lora:agm_v1_epoch7:1>",
+    "negative": ""
+  },
+  "画风5": {
+    "description": "",
+    "positive": "<lora:cunny:1>",
+    "negative": ""
+  },
+  "画风6": {
+    "description": "",
+    "positive": "<lora:nyalia_anima_v13_000001000:0.8> <lora:Unfairr_anima:0.8>",
+    "negative": ""
+  }
+}

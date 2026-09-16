@@ -1,0 +1,108 @@
+{
+  "forge_url": {
+    "description": "Forge / A1111 兼容 API 地址（Forge 需带 --api 启动）",
+    "type": "string",
+    "default": "http://127.0.0.1:7860",
+    "obvious_hint": true,
+    "hint": "验证方法：浏览器打开 该地址+/sdapi/v1/progress，能显示一段 JSON 才算通。没开 --api 的话去 Forge 启动参数里加上重启"
+  },
+  "forge_timeout": {
+    "description": "Forge 单次出图请求超时（秒）",
+    "type": "int",
+    "default": 600
+  },
+  "lora_dir": {
+    "description": "LoRA 目录完整路径（如 D:\\webui-forge\\models\\Lora）",
+    "type": "string",
+    "default": "",
+    "hint": "留空则关闭 LoRA 自动触发。C 站下的 LoRA 请把旁边的 .civitai.info 一起放进该目录，触发词全靠读它"
+  },
+  "lora_max_trigger": {
+    "description": "单张图最多自动挂几个 LoRA",
+    "type": "int",
+    "default": 2
+  },
+  "lora_default_weight": {
+    "description": "LoRA 默认权重",
+    "type": "float",
+    "default": 0.8
+  },
+  "llm_api_key": {
+    "description": "xAI API Key（xai- 开头，https://console.x.ai 生成）",
+    "type": "string",
+    "default": "",
+    "secret": true,
+    "hint": "用于提示词优化和模糊分辨率换算；留空也能跑图，只是跳过优化直接用原文"
+  },
+  "llm_base_url": {
+    "description": "大模型 API 地址（OpenAI 兼容格式）",
+    "type": "string",
+    "default": "https://api.x.ai/v1"
+  },
+  "llm_model": {
+    "description": "用于提示词优化的模型",
+    "type": "string",
+    "default": "grok-4"
+  },
+  "llm_proxy": {
+    "description": "访问大模型的代理地址",
+    "type": "string",
+    "default": "",
+    "hint": "国内直连 xAI 一般不用填；填的话形如 http://127.0.0.1:7890"
+  },
+  "steps": {
+    "description": "默认采样步数",
+    "type": "int",
+    "default": 30
+  },
+  "cfg": {
+    "description": "默认 CFG",
+    "type": "float",
+    "default": 5.0
+  },
+  "sampler": {
+    "description": "默认采样器",
+    "type": "string",
+    "default": "Euler a"
+  },
+  "scheduler": {
+    "description": "默认调度器",
+    "type": "string",
+    "default": "Automatic"
+  },
+  "quality_prefix": {
+    "description": "正向质量前缀（自动加在每条提示词最前面）",
+    "type": "text",
+    "default": "masterpiece, best quality, score_7, safe"
+  },
+  "default_negative": {
+    "description": "默认负面提示词",
+    "type": "text",
+    "default": "worst quality, low quality, score_1, score_2, score_3, artist name, blurry, jpeg artifacts, chromatic aberration"
+  },
+  "default_style": {
+    "description": "不指定画风时使用的画风名",
+    "type": "string",
+    "default": "默认"
+  },
+  "cooldown_seconds": {
+    "description": "同一用户两次发任务的最小间隔（秒）",
+    "type": "int",
+    "default": 3
+  },
+  "daily_quota": {
+    "description": "每人每日跑图配额（0 = 不限）",
+    "type": "int",
+    "default": 0
+  },
+  "max_pending_per_user": {
+    "description": "每人最多未完成任务数（0 = 不限）",
+    "type": "int",
+    "default": 2
+  },
+  "blacklist": {
+    "description": "不搭理的用户 ID 列表",
+    "type": "list",
+    "default": []
+  }
+}
