@@ -2,73 +2,7 @@ name: astrbot_plugin_qq_ai_draw
 display_name: 跑图姬（QQ AI 画图）
 short_desc: 群里 @机器人"画一个佩丽卡"：AI 优化提示词 + 自动触发角色 LoRA，本地 Forge 出图发回群里
 desc: |-
-  群里 @机器人 说「画一个佩丽卡」，AI 自动把大白话优化成规范的英文提示词、识别角色并自动触发对应 LoRA，调用你电脑上的本地 WebUI Forge 出图，发回群里。
-  灵感与核心逻辑来自独立项目 QQ-AI-Draw-Bot（github.com/wangjue520/QQ-AI-Draw-Bot）。
-
-  【功能特性】
-
-  · AI 提示词优化：内置 Anima 官方提示词规则（Danbooru 标签、画师 @ 语法、权重语法），中文大白话自动改写成模型最易出效果的英文提示词。默认走 xAI grok，可换任何 OpenAI 兼容 API。不填 key 也能跑，自动跳过优化用原文。
-
-  · 角色字典 5000 条：内置「中文名 → Danbooru tag」对照，说"画一个阿米娅"自动命中 amiya (arknights) 并强制写进提示词。可手动增删、批量导入。
-
-  · LoRA 自动触发：扫描 LoRA 目录的 .civitai.info（Civitai 下载自带），命中训练词自动拼 <lora:文件名:权重>，群里提示"自动触发 LoRA：xxx"。
-
-  · 画风预设：自带示例画风，正向串支持 <lora:文件名:权重> 和 @画师名，随时增删。
-
-  · 分辨率自由写法：
-    画 1000x1400 少女 —— 精准尺寸直接生效，不调 AI
-    画 1080p 少女（480p~4k）—— 模糊说法，AI 换算成模型能跑的尺寸
-    画 横 / 竖 / 方 —— 固定构图
-    画 厚涂 横 1080p 少女 —— 任意组合，横竖优先于模糊说法
-
-  · 队列与配额：多任务自动排队并报位置；每人每日配额、发送冷却、单人并发上限、黑名单。
-
-  · 网页手点永远优先：你在 Forge 网页手点生成时，机器人自动探测并安静排队，绝不抢卡。
-
-  【部署教程】
-
-  前置条件：
-  1. 本地部署 WebUI Forge 并以 --api 启动。零基础推荐 forge-webui-launcher 一键部署（github.com/wangjue520/forge-webui-launcher）。
-  2. 验证：浏览器打开 http://127.0.0.1:7860/sdapi/v1/progress 能显示一段 JSON = API 已开。
-
-  安装：
-  AstrBot WebUI → 插件 → 从 Git 链接安装 → 填 github.com/wangjue520/astrbot_plugin_qq_ai_draw → 安装后重载插件。
-
-  配置（插件卡片 → 配置，填三项即可开画）：
-  · Forge 地址：默认 http://127.0.0.1:7860
-  · LoRA 目录：Forge 的 models\Lora 完整路径，留空关闭 LoRA 触发
-  · xAI API Key：xai- 开头（console.x.ai 生成），留空跳过提示词优化
-  步数 / CFG / 采样器 / 质量前缀 / 配额 / 冷却等均有默认值。
-
-  使用：
-  群里 @机器人 画 画面描述；私聊直接发指令（不用 @）。
-  · 画 一个少女 —— AI 优化 + 自动触发 LoRA + 跑图
-  · 画 厚涂 横 1080p 一个在雨中撑伞的少女 —— 组合示例
-  · 生图 英文tag —— 跳过优化，按原文直接跑
-  · 再来 —— 同提示词换种子重 roll
-  · 画风 / 帮助 —— 画风列表 / 使用说明
-
-  【进阶玩法】
-
-  数据文件在 AstrBot 数据目录 data/plugin_data/astrbot_plugin_qq_ai_draw/ 下：
-  · char_dict.json —— 角色字典，按格式增删条目
-  · presets.json —— 画风预设，自定义你的画师串
-  · optimizer_prompt.txt —— 自定义提示词优化的 system prompt（生成后生效）
-  · outputs/ —— 每张图自动留档
-  · history.json —— 出图历史（含完整提示词，方便复刻）
-
-  【常见问题】
-
-  跑图没反应 / 报连不上 Forge：Forge 没开或没开 --api。浏览器打开 http://127.0.0.1:7860/sdapi/v1/progress，能显示 JSON 才算通。
-  提示词优化失败：检查 xAI key（xai- 开头）。key 无效不影响跑图，只是跳过优化。
-  LoRA 没自动触发：确认 ① LoRA 目录填对 ② 该 LoRA 旁边有 .civitai.info ③ 角色名在字典里或 LoRA 触发词对得上。
-  图发不出 / 发得慢：QQ 风控限制，别刷屏，稍等重试。
-
-  【交流群】
-  QQ 群：1048157072，欢迎进来玩图、反馈问题。
-
-  【免责说明】
-  QQ 协议端属于第三方实现，存在账号风控/封禁风险，请仅用于小号并遵守相关法律法规与平台规则。本项目仅供学习与技术交流。
+  群里 @机器人 说「画一个佩丽卡」，AI 自动优化提示词、识别角色并自动触发对应 LoRA，调用本地 WebUI Forge 出图发回群里。内置 5000 条角色字典，支持画风预设、分辨率自由写法（精准/横竖方/1080p~4k）、队列配额。完整部署与使用教程见仓库 README。
 version: 1.0.0
 author: wangjue520
 repo: https://github.com/wangjue520/astrbot_plugin_qq_ai_draw
