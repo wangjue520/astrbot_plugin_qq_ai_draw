@@ -3,7 +3,7 @@ display_name: 跑图姬（QQ AI 画图）
 short_desc: 群里 @机器人"画一个佩丽卡"：AI 优化提示词 + 自动触发角色 LoRA，本地 Forge 出图发回群里
 desc: |-
   群里 @机器人 说「画一个佩丽卡」，AI 自动优化提示词、识别角色并自动触发对应 LoRA，调用本地 WebUI Forge 出图发回群里。内置 5000 条角色字典，支持画风预设、分辨率自由写法（精准/横竖方/1080p~4k）、队列配额。完整部署与使用教程见仓库 README。
-version: 1.0.0
+version: 1.1.0
 author: wangjue520
 repo: https://github.com/wangjue520/astrbot_plugin_qq_ai_draw
 support_platforms:
